@@ -24,7 +24,7 @@ answer_device := class(creative_device):
     @editable AnswerBoard : billboard_device = billboard_device{}
     @editable CorrectAnswer: string = ""
 
-    @editable RightGatemover: prop_mover_device = prop_mover_device{}
+    @editable Gatemover: prop_mover_device = prop_mover_device{}
 
     var CurrentInput<private>: string = ""
 
@@ -61,7 +61,7 @@ answer_device := class(creative_device):
     OnEnterPressed(Agent: agent):void =
         if (CurrentInput = CorrectAnswer):
             Print("Correct")
-            RightGatemover.Advance()
+            Gatemover.Advance()
         else:
             Print("Wrong")
         UpdateAnswerBoard("")
