@@ -9,14 +9,12 @@ using { /UnrealEngine.com/Temporary/Diagnostics }
 # A Verse-authored creative device that can be placed in a level
 setup_device := class(creative_device):
 
-    @editable FlashlightGranter : item_granter_device = item_granter_device{}
+    @editable FlashlightGranter: item_granter_device = item_granter_device{}
+    @editable SpawnDevice:  player_spawner_device = player_spawner_device{}
 
     # Runs when the device is started in a running game
     OnBegin<override>()<suspends>:void=
-        GrantFlashLight()
+        SpawnDevice.SpawnedEvent.Subscribe(OnPlayerSpawned)
 
-    GrantFlashLight<private>():void=
-        AllPlayers := GetPlayspace().GetPlayers()
-        for(X : int = 0..AllPlayers.Length - 1 ):
-            if (Player := AllPlayers[X], Agent := agent[Player]):
-                FlashlightGranter.GrantItem(Agent)
+    OnPlayerSpawned(Agent: agent):void=
+        FlashlightGranter.GrantItem(Agent)

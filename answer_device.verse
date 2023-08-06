@@ -25,6 +25,7 @@ answer_device := class(creative_device):
     @editable CorrectAnswer: string = ""
 
     @editable Gatemover: prop_mover_device = prop_mover_device{}
+    @editable MonsterMover: monster_device = monster_device{}
 
     var CurrentInput<private>: string = ""
 
@@ -64,6 +65,7 @@ answer_device := class(creative_device):
             Gatemover.Advance()
         else:
             Print("Wrong")
+            spawn{MonsterMover.FollowPlayer(Agent)}
         UpdateAnswerBoard("")
 
     OnButtonPressed(Agent: agent, Num: string):void =
