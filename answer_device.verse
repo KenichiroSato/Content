@@ -25,6 +25,7 @@ answer_device := class(creative_device):
     @editable CorrectAnswer: string = ""
 
     @editable Gatemover: prop_mover_device = prop_mover_device{}
+    @editable GateSpeaker: audio_player_device = audio_player_device{}
     @editable MonsterMover: monster_device = monster_device{}
 
     var CurrentInput<private>: string = ""
@@ -63,6 +64,7 @@ answer_device := class(creative_device):
         if (CurrentInput = CorrectAnswer):
             Print("Correct")
             Gatemover.Advance()
+            GateSpeaker.Play()
         else:
             Print("Wrong")
             spawn{MonsterMover.FollowPlayer(Agent)}
@@ -70,6 +72,8 @@ answer_device := class(creative_device):
 
     OnButtonPressed(Agent: agent, Num: string):void =
         Print("{Num} is pressed")
+        if (CurrentInput.Length > 2):
+            return
         UpdateAnswerBoard(CurrentInput + Num)
 
     UpdateAnswerBoard(NewVal: string): void =

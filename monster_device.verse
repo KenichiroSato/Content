@@ -12,6 +12,7 @@ monster_device := class(creative_device):
 
     @editable var Monster : creative_prop = creative_prop{}
     @editable var MonsterMutator : mutator_zone_device = mutator_zone_device{}
+    @editable var LaughSpeaker : audio_player_device = audio_player_device{}
     var InitialPosition<private>: vector3 = vector3{X:=0.0, Y:= 0.0, Z:=0.0}
     var InitialRotation<private>: rotation = rotation{}
     var isFollowing<private>: logic = false
@@ -36,14 +37,11 @@ monster_device := class(creative_device):
     
     FollowPlayer(Agent : agent)<suspends>:void=
         set isFollowing = true
-        var PreviousTime : float = GetSimulationElapsedTime()
         MoveSpeed := 0.05
+        LaughSpeaker.Play()
         loop:
             if (not isFollowing?):
                 break
-            CurrentTime := GetSimulationElapsedTime()
-            DeltaTime := CurrentTime - PreviousTime
-            set PreviousTime = CurrentTime
             if (PlayerCharacter := Agent.GetFortCharacter[]):
                 PropLocation := Monster.GetTransform().Translation
                 PlayerLocation := PlayerCharacter.GetTransform().Translation
