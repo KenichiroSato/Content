@@ -39,7 +39,7 @@ monster_device := class(creative_device):
     
     FollowPlayer(Agent : agent)<suspends>:void=
         set isFollowing = true
-        var MoveSpeed :float = 0.0001
+        var MoveSpeed :float = 0.1
         Light.TurnOn()
         LaughSpeaker.Play()
         loop:
@@ -56,7 +56,6 @@ monster_device := class(creative_device):
                     # Movement
                     LerpLocation := Lerp(PropLocation, PlayerLocation, MoveSpeed)
                     FinalLocation := vector3{X := LerpLocation.X, Y := LerpLocation.Y, Z := LerpLocation.Z}
-                    if:
-                        Monster.TeleportTo[FinalLocation, NewRotation]
-                    set MoveSpeed += 0.001
+                    Monster.MoveTo(FinalLocation, NewRotation, 0.5)
+                    set MoveSpeed += 0.2
             Sleep(0.0)
